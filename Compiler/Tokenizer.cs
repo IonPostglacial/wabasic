@@ -8,7 +8,7 @@ public enum TokenKind
     Num, Str,
     Sep, Comma, Dot,
     OpenParens, CloseParens, 
-    OpenSquare, OpenSecondSquare, CloseSquare,
+    OpenSquare, CloseSquare,
     OpenBracket, CloseBracket,
     Let,
     As,
@@ -128,8 +128,6 @@ public partial class Tokenizer(string source)
             kind = TokenKind.CloseParens;
         else if (op == "[")
             kind = TokenKind.OpenSquare;
-        else if (op == "²[" || op == "`[")
-            kind = TokenKind.OpenSecondSquare;
         else if (op == "]")
             kind = TokenKind.CloseSquare;
         else if (op == "{")

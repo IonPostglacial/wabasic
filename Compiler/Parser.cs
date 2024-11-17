@@ -71,12 +71,7 @@ public class Parser(Tokenizer tokens, bool stopOnFirstError)
             else if (nextTok.Kind == TokenKind.OpenSquare)
             {
                 var (args, end) = ParseSequenceList(TokenKind.CloseSquare);
-                node = new SelectCall(new(start, end), SelectCall.Kind.Primary, node, args);
-            }
-            else if (nextTok.Kind == TokenKind.OpenSecondSquare)
-            {
-                var (args, end) = ParseSequenceList(TokenKind.CloseSquare);
-                node = new SelectCall(new(start, end), SelectCall.Kind.Secondary, node, args);
+                node = new SelectCall(new(start, end), node, args);
             }
             else if (nextTok.Kind == TokenKind.Dot)
             {

@@ -13,7 +13,7 @@ For(3,
     DebugPrint(%Inc) ' print loop index
 ):
 If($hello >= $world,
-    #\std\io!print(\adm\Users!Id²["13"])
+    #\std\io!print(\adm\Users!Id["13"])
 ,
     \current\Users!Id[new Date(2023, 25, 12)]
 ):

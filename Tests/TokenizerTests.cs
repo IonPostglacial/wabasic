@@ -32,14 +32,12 @@ public class TokenizerTests
     [TestCase(":=", TokenKind.Assign, 0, 2)]
     [TestCase("not", TokenKind.Not, 0, 3)]
     [TestCase(".", TokenKind.Dot, 0, 1)]
-    [TestCase("New", TokenKind.New, 0, 3)]
+    [TestCase("new", TokenKind.New, 0, 3)]
     [TestCase("class", TokenKind.Class, 0, 5)]
 
     [TestCase("(", TokenKind.OpenParens, 0, 1)]
     [TestCase(")", TokenKind.CloseParens, 0, 1)]
     [TestCase("[", TokenKind.OpenSquare, 0, 1)]
-    [TestCase("²[", TokenKind.OpenSecondSquare, 0, 2)]
-    [TestCase("`[", TokenKind.OpenSecondSquare, 0, 2)]
     [TestCase("}", TokenKind.CloseBracket, 0, 1)]
     
     [TestCase("a", TokenKind.Sym, 0, 1)]
@@ -113,12 +111,6 @@ public class TokenizerTests
             new (TokenKind.OpenParens, 5..6),
             new (TokenKind.Sym, 6..11),
             new (TokenKind.CloseParens, 11..12),
-        ]),
-        ("papa²[world]", [
-            new (TokenKind.Sym, 0..4), 
-            new (TokenKind.OpenSecondSquare, 4..6),
-            new (TokenKind.Sym, 6..11),
-            new (TokenKind.CloseSquare, 11..12),
         ]),
         ("If(0,1;2,3;4);5", [
             new (TokenKind.Sym, 0..2), 
