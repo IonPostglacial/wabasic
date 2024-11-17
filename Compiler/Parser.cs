@@ -125,7 +125,7 @@ public class Parser(Tokenizer tokens, bool stopOnFirstError)
                 _ => new InvalidNode(tok.Range),
             },
             TokenKind.New => ParseNew(tok),
-            TokenKind.Let => ParseDim(tok),
+            TokenKind.Let => ParseLet(tok),
             TokenKind.Operator => ParseOperation(previous, tok, minBp),
             TokenKind.OpenParens => ParseParens(tok),
             TokenKind.OpenSquare => ParseClassWithAttribute(),
@@ -461,7 +461,7 @@ public class Parser(Tokenizer tokens, bool stopOnFirstError)
         }
     }
 
-    private VariableDeclaration ParseDim(Token tok)
+    private VariableDeclaration ParseLet(Token tok)
     {
         Token varToken = ExpectNonNull(Tokens.Next(), [TokenKind.Sym]);
         if (varToken.Kind != TokenKind.Sym)
@@ -471,32 +471,16 @@ public class Parser(Tokenizer tokens, bool stopOnFirstError)
             RaiseError(new ParsingError.InvalidDim(varToken));
         int end = varToken.Range.End.Value;
         Token nextTok = Tokens.Peek();
-        if (nextTok.Kind == TokenKind.As)
-            Tokens.Next();
-        nextTok = Tokens.Peek();
         INode? value = null;
         TypeName? cstr;
-        if (nextTok.Kind == TokenKind.New)
+        (cstr, int potentialEnd) = TryParseTypeWithEnd();
+        if (cstr is not null)
+            end = potentialEnd;
+        nextTok = Tokens.Peek();
+        if (nextTok.Kind == TokenKind.Assign)
         {
             Tokens.Next();
-            (cstr, int potentialEnd) = TryParseTypeWithEnd();
-            if (cstr is TypeName t)
-            {
-                end = potentialEnd;
-                value = new Instanciation(new Range(nextTok.Range.Start, end), t, []);
-            }
-        }
-        else
-        {
-            (cstr, int potentialEnd) = TryParseTypeWithEnd();
-            if (cstr is not null)
-                end = potentialEnd;
-            nextTok = Tokens.Peek();
-            if (nextTok.Kind == TokenKind.Assign)
-            {
-                Tokens.Next();
-                value = AssertNode(ParseNextNode(0), "expression to assign");
-            }
+            value = AssertNode(ParseNextNode(0), "expression to assign");
         }
         if (value is not null)
             end = value.Range.End.Value;
