@@ -470,13 +470,12 @@ public class Parser(Tokenizer tokens, bool stopOnFirstError)
         if (varSym.Kind is not (SymKind.Local or SymKind.Member))
             RaiseError(new ParsingError.InvalidDim(varToken));
         int end = varToken.Range.End.Value;
-        Token nextTok = Tokens.Peek();
         INode? value = null;
         TypeName? cstr;
         (cstr, int potentialEnd) = TryParseTypeWithEnd();
         if (cstr is not null)
             end = potentialEnd;
-        nextTok = Tokens.Peek();
+        Token nextTok = Tokens.Peek();
         if (nextTok.Kind == TokenKind.Assign)
         {
             Tokens.Next();
