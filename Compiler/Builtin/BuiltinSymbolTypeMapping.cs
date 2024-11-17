@@ -14,12 +14,9 @@ class BuiltinSymbolTypeMapping : ISymbolTypeMapping
         DefStandardVariable("Null", BuiltinType.Object);
         DefStandardVariable("True", BuiltinType.Boolean);
         DefStandardVariable("False", BuiltinType.Boolean);
-        DefStandardVariable("ebYes", BuiltinType.Number);
-        DefStandardVariable("ebNo", BuiltinType.Number);
 
         DefStandardContext("Inc", BuiltinType.Number);
-        DefStandardContext("InZoom", BuiltinType.Boolean);
-        DefStandardContext("Interactive", BuiltinType.Boolean);
+        DefStandardContext("InBrowser", BuiltinType.Boolean);
 
         DefStandardCallable("Abs", [BuiltinType.Number, BuiltinType.Number]);
         DefStandardCallable("Log", [BuiltinType.Number, BuiltinType.Number]);

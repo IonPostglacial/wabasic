@@ -1,4 +1,4 @@
-let $bShow Boolean+ := %InZoom ORELSE %Interactive:
+let $bShow Boolean+ := %InBrowser ORELSE True:
 let $sGreetings := "Hello, " & "world!":
 let $hello As Form := new Form("toto"):
 let $world Array<Number+> := Array(2 * 9.5 + 1, 42):
@@ -13,9 +13,9 @@ For(3,
     DebugPrint(%Inc) ' print loop index
 ):
 If($hello >= $world,
-    \std\io!#print(\adm\Users!Id²["13"])
+    #\std\io!print(\adm\Users!Id²["13"])
 ,
-    \adm\Users!Id[#12/25/2023 01:23:#45]
+    \current\Users!Id[new Date(2023, 25, 12)]
 ):
 not $res:
 $i < $snakeX.Size() ANDALSO not $res
