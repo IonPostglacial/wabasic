@@ -1,0 +1,21 @@
+let $bShow Boolean+ := %InZoom ORELSE %Interactive:
+let $sGreetings := "Hello, " & "world!":
+let $hello As Form := new Form("toto"):
+let $world Array<Number+> := Array(2 * 9.5 + 1, 42):
+let $quick new Array<String>:
+let $nSize := $world.Size():
+let $bContains := 3 in (1, 2, 3):
+let $nSumActive := Data.Count{Active=ebYes}:
+let $add := ($n Number+, $m Number+) => ($n + $m):
+let $sub Func<Number+, Number+> := ($n, $m) => ($n - $m):
+' Some comment
+For(3,
+    DebugPrint(%Inc) ' print loop index
+):
+If($hello >= $world,
+    \std\io!#print(\adm\Users!Id²["13"])
+,
+    \adm\Users!Id[#12/25/2023 01:23:#45]
+):
+not $res:
+$i < $snakeX.Size() ANDALSO not $res

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompSharp", "CompSharp.csproj", "{628DB473-91CE-4543-AA3E-E2F40DA1D279}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{628DB473-91CE-4543-AA3E-E2F40DA1D279}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{628DB473-91CE-4543-AA3E-E2F40DA1D279}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{628DB473-91CE-4543-AA3E-E2F40DA1D279}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{628DB473-91CE-4543-AA3E-E2F40DA1D279}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2D7C812D-93D4-4B5D-A742-686072ABBBAD}
+	EndGlobalSection
+EndGlobal

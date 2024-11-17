@@ -1,0 +1,38 @@
+let $a := new Array+<Number+>(1, 2, 3):
+let $b := $a.Get(0):
+let $c := new Dictionary+<Number+, String+>():
+let $d := $c.Get($b):
+DebugPrint($d):
+let $width := 640:
+let $height := 480:
+let $cellSize := 20:
+let $gridWidth := Int($width / $cellSize):
+let $gridHeight := Int($height / $cellSize):
+
+let $stepPeriod := 300:
+let $speedX := 1:
+let $speedY := 0:
+let $snakeX := new Array<Number+>(0, 1, 2, 3):
+let $snakeY := new Array<Number+>(0, 0, 0, 0):
+let $score := 0:
+let $nextReward := 10:
+
+let $randomApplePos := () => (
+    new Array<Number+>(Int(Rnd() * $gridWidth), Int(Rnd() * $gridHeight))
+):
+
+let $applePos := $randomApplePos.Invoke():
+
+let $nextSnakeHeadPos := () => (
+    new Array<Number+>(
+        $snakeX.Get($snakeX.Size()) + $speedX,
+        $snakeY.Get($snakeY.Size()) + $speedY
+    )
+):
+
+let $changeSnakeSpeed := ($x Number+, $y Number+) => (
+    If($speedX != -$x ANDALSO $speedY != -$y,
+        $speedX := $x:
+        $speedY := $y:
+    )
+):
