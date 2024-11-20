@@ -55,7 +55,7 @@ public class ParsingError
 
     public record InvalidTypeKind(Range Range, SymKind Kind) : IError;
     
-    public record InvalidDim(Token Token) : IError
+    public record InvalidLet(Token Token) : IError
     {
         public Range Range => Token.Range;
     }

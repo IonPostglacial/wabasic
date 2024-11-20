@@ -468,7 +468,7 @@ public class Parser(Tokenizer tokens, bool stopOnFirstError)
             RaiseError(new ParsingError.ExpectedButFound([TokenKind.Sym], varToken));
         Symbol varSym = Tokens.AsSymbol(varToken);
         if (varSym.Kind is not (SymKind.Local or SymKind.Member))
-            RaiseError(new ParsingError.InvalidDim(varToken));
+            RaiseError(new ParsingError.InvalidLet(varToken));
         int end = varToken.Range.End.Value;
         INode? value = null;
         TypeName? cstr;
@@ -511,7 +511,7 @@ public class Parser(Tokenizer tokens, bool stopOnFirstError)
 
     private (TypeName?, int) TryParseTypeWithEnd()
     {
-        Token typeSym = ExpectNonNull(Tokens.Peek(), [TokenKind.Sym]);
+        Token typeSym = Tokens.Peek();
         int end = typeSym.Range.End.Value;
         if (typeSym.Kind != TokenKind.Sym)
             return (null, end);
@@ -702,10 +702,10 @@ public class Parser(Tokenizer tokens, bool stopOnFirstError)
     private Lambda ParseLambda(int start, List<FunctionParameter> parameters)
     {
         Tokens.Next();
-        var openingParens = ExpectNonNull(Tokens.Next(), [TokenKind.OpenParens]);
-        if (openingParens.Kind != TokenKind.OpenParens)
+        var openingParens = ExpectNonNull(Tokens.Next(), [TokenKind.OpenBracket]);
+        if (openingParens.Kind != TokenKind.OpenBracket)
         {
-            RaiseError(new ParsingError.ExpectedButFound([TokenKind.OpenParens], openingParens));
+            RaiseError(new ParsingError.ExpectedButFound([TokenKind.OpenBracket], openingParens));
         }
         var body = ParseSequence();
         Token closingParens = Tokens.Next();
@@ -713,9 +713,9 @@ public class Parser(Tokenizer tokens, bool stopOnFirstError)
         {
             RaiseError(new ParsingError.UnclosedParens(openingParens));
         }
-        if (closingParens.Kind != TokenKind.CloseParens)
+        if (closingParens.Kind != TokenKind.CloseBracket)
         {
-            RaiseError(new ParsingError.ExpectedButFound([TokenKind.CloseParens], closingParens));
+            RaiseError(new ParsingError.ExpectedButFound([TokenKind.CloseBracket], closingParens));
         }
         return new Lambda(start..closingParens.Range.End, parameters, body);
     }
@@ -731,8 +731,8 @@ public class Parser(Tokenizer tokens, bool stopOnFirstError)
             if (tok.Kind != TokenKind.Sep)
                 break;
             Tokens.Next();
-            tok = ExpectNonNull(Tokens.Peek(), []);
-            if (Tokens.TokenIsSeparator(tok))
+            tok = Tokens.Peek();
+            if (tok.Kind is TokenKind.Eof || Tokens.TokenIsSeparator(tok))
             {
                 break;
             }

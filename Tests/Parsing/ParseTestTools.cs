@@ -10,6 +10,10 @@ static class ParseTestTools
         Tokenizer tokenizer = new(td.source);
         Parser parser = new(tokenizer, false);
         INode actual = parser.Next();
-        Assert.That(actual, Is.EqualTo(td.expected));
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual, Is.EqualTo(td.expected));
+            Assert.That(parser.Errors, Has.Count.EqualTo(0));
+        });
     }
 }
