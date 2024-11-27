@@ -15,17 +15,17 @@ public class ParserVarDeclarationTests
 
     private static readonly (string, INode)[] ParseDimCases =
     [
-        ("let $a", new VariableDeclaration(0..6, null, Symbol.Local("a"), null)),
-        ("let $a   ", new VariableDeclaration(0..6, null, Symbol.Local("a"), null)),
-        ("let $a Number+", new VariableDeclaration(0..14, BuiltinTypeName.Number, Symbol.Local("a"), null)),
-        ("let $a Array+<Number+>", new VariableDeclaration(
-            0..22, 
+        ("let a", new VariableDeclaration(0..5, null, Symbol.BuiltIn("a"), null)),
+        ("let a   ", new VariableDeclaration(0..5, null, Symbol.BuiltIn("a"), null)),
+        ("let a Number+", new VariableDeclaration(0..13, BuiltinTypeName.Number, Symbol.BuiltIn("a"), null)),
+        ("let a Array+<Number+>", new VariableDeclaration(
+            0..21, 
             BuiltinTypeName.Generic("Array", [BuiltinTypeName.Number]), 
-            Symbol.Local("a"), 
+            Symbol.BuiltIn("a"), 
             null)),
-        ("let $a := 1234", new VariableDeclaration(0..14, null, Symbol.Local("a"),
-            new NumberLiteral(10..14, 1234))),
-        ("let $a Number+ := 1234", new VariableDeclaration(0..22, BuiltinTypeName.Number, Symbol.Local("a"),
-            new NumberLiteral(18..22, 1234))),
+        ("let a := 1234", new VariableDeclaration(0..13, null, Symbol.BuiltIn("a"),
+            new NumberLiteral(9..13, 1234))),
+        ("let a Number+ := 1234", new VariableDeclaration(0..21, BuiltinTypeName.Number, Symbol.BuiltIn("a"),
+            new NumberLiteral(17..21, 1234))),
     ];
 }

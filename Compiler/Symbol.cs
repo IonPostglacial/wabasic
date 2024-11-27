@@ -1,10 +1,10 @@
 namespace DotNetComp.Compiler;
 
-public enum SymKind { Builtin, Local, Member, Constant, Context }
+public enum SymKind { Builtin, Member, Constant, Context }
 
 public record struct Symbol(SymKind Kind, string Path, string Name)
 {
-    private static readonly char[] sigils = ['@', '$', '#', '%'];
+    private static readonly char[] sigils = ['@', '#', '$'];
 
     public readonly bool IsGlobalBuiltIn { get => Kind == SymKind.Builtin && Path == ""; }
 
@@ -33,10 +33,9 @@ public record struct Symbol(SymKind Kind, string Path, string Name)
     {
         return sigil switch
         {
-            '$' => SymKind.Local,
             '@' => SymKind.Member,
             '#' => SymKind.Constant,
-            '%' => SymKind.Context,
+            '$' => SymKind.Context,
             _ => SymKind.Builtin,
         };
     }
@@ -61,11 +60,6 @@ public record struct Symbol(SymKind Kind, string Path, string Name)
     public static Symbol BuiltIn(string name)
     {
         return new Symbol(SymKind.Builtin, "", name);
-    }
-
-    public static Symbol Local(string name)
-    {
-        return new Symbol(SymKind.Local, "", name);
     }
 
     public static Symbol Context(string name)

@@ -10,9 +10,8 @@ public class SymbolTests
 
     [TestCase("hello", SymKind.Builtin, "", "hello")]
     [TestCase("@hello", SymKind.Member, "", "hello")]
-    [TestCase("$hello", SymKind.Local, "", "hello")]
     [TestCase("#hello", SymKind.Constant, "", "hello")]
-    [TestCase("%hello", SymKind.Context, "", "hello")]
+    [TestCase("$hello", SymKind.Context, "", "hello")]
 
     [TestCase("#Cst!hello", SymKind.Constant, "Cst", "hello")]
     [TestCase("#\\app\\Cst!hello", SymKind.Constant, "\\app\\Cst", "hello")]

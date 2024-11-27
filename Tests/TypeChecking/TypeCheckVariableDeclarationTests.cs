@@ -20,15 +20,15 @@ public class TypeCheckVariableDeclarationTests
     private static readonly (VariableDeclaration VariableDeclaration, TypeInstance expected)[] TypeCheckVariableDeclarationTestCases =
     [
         (
-            new VariableDeclaration(0..0, BuiltinTypeName.Number, Symbol.Local("a"), new NumberLiteral(0..0, 1)), 
+            new VariableDeclaration(0..0, BuiltinTypeName.Number, Symbol.BuiltIn("a"), new NumberLiteral(0..0, 1)), 
             BuiltinType.Number
         ),
         (
-            new VariableDeclaration(0..0, BuiltinTypeName.Number with { IsNullable = true }, Symbol.Local("a"), new NumberLiteral(0..0, 1)), 
+            new VariableDeclaration(0..0, BuiltinTypeName.Number with { IsNullable = true }, Symbol.BuiltIn("a"), new NumberLiteral(0..0, 1)), 
             BuiltinType.Number with { IsNullable = true }
         ),
         (
-            new VariableDeclaration(0..0, null, Symbol.Local("a"), new NumberLiteral(0..0, 1)), 
+            new VariableDeclaration(0..0, null, Symbol.BuiltIn("a"), new NumberLiteral(0..0, 1)), 
             BuiltinType.Number
         ),
     ];

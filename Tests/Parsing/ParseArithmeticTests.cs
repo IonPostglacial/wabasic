@@ -77,6 +77,6 @@ class ParseArithmeticTests
                 new NumberLiteral(12..13, 4)))
         ),
         ("not true", new Negation(0..8, new Variable(4..8, Symbol.BuiltIn("true")))),
-        ("-$x", new UnaryMinus(0..3, new Variable(1..3, Symbol.Local("x"))))
+        ("-$x", new UnaryMinus(0..3, new Variable(1..3, Symbol.Context("x"))))
     ];
 }

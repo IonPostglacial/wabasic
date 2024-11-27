@@ -1,146 +1,146 @@
-let $width := 640;
-let $height := 480;
-let $cellSize := 20;
-let $bgColor := new Color(0, 0, 0);
-let $snakeColor := new Color(0, 255, 0);
-let $appleColor := new Color(255, 0, 0);
-let $gridWidth := Int($width / $cellSize);
-let $gridHeight := Int($height / $cellSize);
+let width := 640;
+let height := 480;
+let cellSize := 20;
+let bgColor := new Color(0, 0, 0);
+let snakeColor := new Color(0, 255, 0);
+let appleColor := new Color(255, 0, 0);
+let gridWidth := Int(width / cellSize);
+let gridHeight := Int(height / cellSize);
 
-let $stepPeriod := 300;
-let $speedX := 1;
-let $speedY := 0;
-let $snakeX := new Array<Number+>(0, 1, 2, 3);
-let $snakeY := new Array<Number+>(0, 0, 0, 0);
-let $score := 0;
-let $nextReward := 10;
+let stepPeriod := 300;
+let speedX := 1;
+let speedY := 0;
+let snakeX := new Array<Number+>(0, 1, 2, 3);
+let snakeY := new Array<Number+>(0, 0, 0, 0);
+let score := 0;
+let nextReward := 10;
 
-let $randomApplePos := () => {
-    new Array<Number+>(Int(Rnd() * $gridWidth), Int(Rnd() * $gridHeight))
+let randomApplePos := () => {
+    new Array<Number+>(Int(Rnd() * gridWidth), Int(Rnd() * gridHeight))
 };
 
-let $applePos := $randomApplePos();
+let applePos := randomApplePos();
 
-let $changeSnakeSpeed := ($x Number+, $y Number+) => {
-    If($speedX != -$x ANDALSO $speedY != -$y,
-        $speedX := $x;
-        $speedY := $y;
+let changeSnakeSpeed := (x Number+, y Number+) => {
+    if(speedX != -x ANDALSO speedY != -y,
+        speedX := x;
+        speedY := y;
     )
 };
 
-let $nextSnakeHeadPos := () => {
+let nextSnakeHeadPos := () => {
     new Array<Number+>(
-        $snakeX.Get($snakeX.Size()) + $speedX,
-        $snakeY.Get($snakeY.Size()) + $speedY
+        snakeX.Get(snakeX.Size()) + speedX,
+        snakeY.Get(snakeY.Size()) + speedY
     )
 };
 
-let $moveSnake := () => {
-    For($snakeX.Size() - 1,
-        $snakeX.Set(%Inc, $snakeX.Get(%Inc + 1));
-        $snakeY.Set(%Inc, $snakeY.Get(%Inc + 1));
+let moveSnake := () => {
+    for(snakeX.Size() - 1,
+        snakeX.Set($inc, snakeX.Get($inc + 1));
+        snakeY.Set($inc, snakeY.Get($inc + 1));
     );
-    let $headPos := $nextSnakeHeadPos.Invoke();
-    $snakeX.Set($snakeX.Size(), $headPos.Get(1));
-    $snakeY.Set($snakeY.Size(), $headPos.Get(2));
+    let headPos := nextSnakeHeadPos.Invoke();
+    snakeX.Set(snakeX.Size(), headPos.Get(1));
+    snakeY.Set(snakeY.Size(), headPos.Get(2));
 };
 
-let $growSnake := () => {
-    let $headPosition := $nextSnakeHeadPos.Invoke();
-    $snakeX.Append($headPosition.Get(1));
-    $snakeY.Append($headPosition.Get(2));
+let growSnake := () => {
+    let headPosition := nextSnakeHeadPos.Invoke();
+    snakeX.Append(headPosition.Get(1));
+    snakeY.Append(headPosition.Get(2));
 };
 
-let $isSnakeHeadAt := ($x Number+, $y Number+) => {
-    let $headX := $snakeX.Get($snakeX.Size());
-    let $headY := $snakeY.Get($snakeY.Size());
-    $headX = $x ANDALSO $headY = $y
+let isSnakeHeadAt := (x Number+, y Number+) => {
+    let headX := snakeX.Get(snakeX.Size());
+    let headY := snakeY.Get(snakeY.Size());
+    headX = x ANDALSO headY = y
 };
 
-let $snakeWillEatApple := () => {
-    let $nextHeadPos := $nextSnakeHeadPos.Invoke();
-    $nextHeadPos.Get(1) = $applePos.Get(1) ANDALSO $nextHeadPos.Get(2) = $applePos.Get(2)
+let snakeWillEatApple := () => {
+    let nextHeadPos := nextSnakeHeadPos.Invoke();
+    nextHeadPos.Get(1) = applePos.Get(1) ANDALSO nextHeadPos.Get(2) = applePos.Get(2)
 };
 
-let $speedupGame := () => {
-    If($stepPeriod > 50,
-        $stepPeriod := $stepPeriod - 25;
+let speedupGame := () => {
+    if(stepPeriod > 50,
+        stepPeriod := stepPeriod - 25;
     )
 };
 
-let $updateScore := () => {
-    $score := $score + $nextReward;
-    $nextReward := $nextReward + 10;
+let updateScore := () => {
+    score := score + nextReward;
+    nextReward := nextReward + 10;
 };
 
-let $isSnakeEatingItself := () => {
-    let $res := False;
-    let $i := 1;
-    While($i < $snakeX.Size() ANDALSO not $res,
-        $res := $isSnakeHeadAt.Invoke($snakeX.Get($i), $snakeY.Get($i));
-        $i := $i + 1;
+let isSnakeEatingItself := () => {
+    let res := False;
+    let i := 1;
+    while(i < snakeX.Size() ANDALSO not res,
+        res := isSnakeHeadAt.Invoke(snakeX.Get(i), snakeY.Get(i));
+        i := i + 1;
     );
-    $res
+    res
 };
 
-let $isSnakeOutOfBounds := () => {
-    let $headPosX := $snakeX.Get($snakeX.Size());
-    let $headPosY := $snakeY.Get($snakeY.Size());
-    $headPosX < 0 ORELSE $headPosX >= $gridWidth ORELSE $headPosY < 0 ORELSE $headPosY >= $gridHeight
+let isSnakeOutOfBounds := () => {
+    let headPosX := snakeX.Get(snakeX.Size());
+    let headPosY := snakeY.Get(snakeY.Size());
+    headPosX < 0 ORELSE headPosX >= gridWidth ORELSE headPosY < 0 ORELSE headPosY >= gridHeight
 };
 
-let $isGameOver := () => {
-    $isSnakeEatingItself.Invoke() ORELSE $isSnakeOutOfBounds.Invoke()
+let isGameOver := () => {
+    isSnakeEatingItself.Invoke() ORELSE isSnakeOutOfBounds.Invoke()
 };
 
-let $wrapper := QueryUnique("div");
-let $scoreBox := $wrapper.CreateChild("div").SetText("score; 0");
-let $canvas Canvas := new Canvas($wrapper)
+let wrapper := QueryUnique("div");
+let scoreBox := wrapper.CreateChild("div").SetText("score: 0");
+let canvas Canvas := new Canvas(wrapper)
     .Resize(640, 480)
-    .Clear($bgColor);
+    .Clear(bgColor);
 
-let $drawGame := () => {
-    $canvas
-        .Clear($bgColor)
-        .SetDrawColor($appleColor)
-        .DrawRect($applePos.Get(1) * $cellSize, $applePos.Get(2) * $cellSize, $cellSize, $cellSize)
-        .SetDrawColor($snakeColor);
-    ForEach($snakeX,
-        let $x := %Val;
-        let $y := $snakeY.Get(%Key);
-        $canvas.DrawRect($x * $cellSize, $y * $cellSize, $cellSize, $cellSize)
+let drawGame := () => {
+    canvas
+        .Clear(bgColor)
+        .SetDrawColor(appleColor)
+        .DrawRect(applePos.Get(1) * cellSize, applePos.Get(2) * cellSize, cellSize, cellSize)
+        .SetDrawColor(snakeColor);
+    foreach(snakeX,
+        let x := $val;
+        let y := snakeY.Get($key);
+        canvas.DrawRect(x * cellSize, y * cellSize, cellSize, cellSize)
     );
-    $canvas.Repaint()
+    canvas.Repaint()
 };
 
-let $elapsedTimeSinceUpdate := 0;
+let elapsedTimeSinceUpdate := 0;
 
-%Window.On(ebEventKeyDown, ($e Event) => {
-    $e.StopPropagation();
-    Case($e.Code(),
-        ebKeyCodeArrowDown,  $changeSnakeSpeed.Invoke( 0,  1),
-        ebKeyCodeArrowUp,    $changeSnakeSpeed.Invoke( 0, -1),
-        ebKeyCodeArrowLeft,  $changeSnakeSpeed.Invoke(-1,  0),
-        ebKeyCodeArrowRight, $changeSnakeSpeed.Invoke( 1,  0),
+$window.On(ebEventKeyDown, (e Event) => {
+    e.StopPropagation();
+    Case(e.Code(),
+        ebKeyCodeArrowDown,  changeSnakeSpeed.Invoke( 0,  1),
+        ebKeyCodeArrowUp,    changeSnakeSpeed.Invoke( 0, -1),
+        ebKeyCodeArrowLeft,  changeSnakeSpeed.Invoke(-1,  0),
+        ebKeyCodeArrowRight, changeSnakeSpeed.Invoke( 1,  0),
         Null
     )
 });
 
-%Window.EachFrame(($delta) => {
-    $elapsedTimeSinceUpdate := $elapsedTimeSinceUpdate + $delta;
-    If($elapsedTimeSinceUpdate >= $stepPeriod,
-        $elapsedTimeSinceUpdate := 0;
-        If($snakeWillEatApple.Invoke(),
-            $growSnake.Invoke();
-            $applePos := $randomApplePos.Invoke();
-            $speedupGame.Invoke();
-            $updateScore.Invoke();
-            $scoreBox.SetText("score; " & $score);
+$window.EachFrame((delta) => {
+    elapsedTimeSinceUpdate := elapsedTimeSinceUpdate + delta;
+    if(elapsedTimeSinceUpdate >= stepPeriod,
+        elapsedTimeSinceUpdate := 0;
+        if(snakeWillEatApple.Invoke(),
+            growSnake.Invoke();
+            applePos := randomApplePos.Invoke();
+            speedupGame.Invoke();
+            updateScore.Invoke();
+            scoreBox.SetText("score; " & score);
         ,
-            $moveSnake.Invoke();
+            moveSnake.Invoke();
         );
-        $drawGame.Invoke();
-        If($isGameOver.Invoke(),
+        drawGame.Invoke();
+        if(isGameOver.Invoke(),
             Alert("Game Over !");
             RefreshPage();
         );

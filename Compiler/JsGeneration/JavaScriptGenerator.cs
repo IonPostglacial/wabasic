@@ -295,8 +295,15 @@ public class JavaScriptGenerator(ITypeRegistry typeRegistry) : INodeVisitor<IJav
     {
         switch (node.Symbol.Kind)
         {
-            case SymKind.Local:
-                return new JavaScriptVariableExpression(node.Symbol.Name);
+            case SymKind.Builtin:
+                if (node.Symbol.Name.Equals("null", StringComparison.OrdinalIgnoreCase))
+                    return new JavaScriptUndefined();
+                else if (node.Symbol.Name.Equals("true", StringComparison.OrdinalIgnoreCase))
+                    return new JavaScriptLiteral(true);
+                else if (node.Symbol.Name.Equals("false", StringComparison.OrdinalIgnoreCase))
+                    return new JavaScriptLiteral(false);
+                else
+                    return new JavaScriptVariableExpression(JavaScriptVariableExpression.NormalizeName(node.Symbol.Name));
             case SymKind.Context:
                 if (node.Symbol.Name.Equals("inc", StringComparison.OrdinalIgnoreCase))
                     return new JavaScriptVariableExpression(incVariable.CurrentVariableName, true);
@@ -309,17 +316,6 @@ public class JavaScriptGenerator(ITypeRegistry typeRegistry) : INodeVisitor<IJav
                 else
                     return new JavaScriptAccessProperty(
                         new JavaScriptVariableExpression("__context__"), 
-                        JavaScriptVariableExpression.NormalizeName(node.Symbol.Name));
-            case SymKind.Builtin:
-                if (node.Symbol.Name.Equals("null", StringComparison.OrdinalIgnoreCase))
-                    return new JavaScriptUndefined();
-                else if (node.Symbol.Name.Equals("true", StringComparison.OrdinalIgnoreCase))
-                    return new JavaScriptLiteral(true);
-                else if (node.Symbol.Name.Equals("false", StringComparison.OrdinalIgnoreCase))
-                    return new JavaScriptLiteral(false);
-                else
-                    return new JavaScriptAccessProperty(
-                        new JavaScriptVariableExpression("__builtin__"),
                         JavaScriptVariableExpression.NormalizeName(node.Symbol.Name));
             default:
                 throw new NotImplementedException();

@@ -15,9 +15,9 @@ class ParseLambdaTests
     private static readonly (string, INode)[] ParseLambdaCases =
     [
         ("()=>{1}", new Lambda(0..7, [], new NumberLiteral(5..6, 1))),
-        ("($a)=>{1}", new Lambda(0..9, [new FunctionParameter("a", null)], new NumberLiteral(7..8, 1))),
-        ("($a)=>{1;2}", new Lambda(0..11, [new FunctionParameter("a", null)], new Sequence(7..10, [new NumberLiteral(7..8, 1), new NumberLiteral(9..10, 2)]))),
-        ("($a,$b)=>{1}", new Lambda(0..12, [new FunctionParameter("a", null), new FunctionParameter("b", null)], new NumberLiteral(10..11, 1))),
-        ("($a Number+)=>{1}", new Lambda(0..17, [new FunctionParameter("a", BuiltinTypeName.Number)], new NumberLiteral(15..16, 1))),
+        ("(a)=>{1}", new Lambda(0..8, [new FunctionParameter("a", null)], new NumberLiteral(6..7, 1))),
+        ("(a)=>{1;2}", new Lambda(0..10, [new FunctionParameter("a", null)], new Sequence(6..9, [new NumberLiteral(6..7, 1), new NumberLiteral(8..9, 2)]))),
+        ("(a,b)=>{1}", new Lambda(0..10, [new FunctionParameter("a", null), new FunctionParameter("b", null)], new NumberLiteral(8..9, 1))),
+        ("(a Number+)=>{1}", new Lambda(0..16, [new FunctionParameter("a", BuiltinTypeName.Number)], new NumberLiteral(14..15, 1))),
     ];
 }

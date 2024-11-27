@@ -467,7 +467,7 @@ public class Parser(Tokenizer tokens, bool stopOnFirstError)
         if (varToken.Kind != TokenKind.Sym)
             RaiseError(new ParsingError.ExpectedButFound([TokenKind.Sym], varToken));
         Symbol varSym = Tokens.AsSymbol(varToken);
-        if (varSym.Kind is not (SymKind.Local or SymKind.Member))
+        if (varSym.Kind is not SymKind.Builtin)
             RaiseError(new ParsingError.InvalidLet(varToken));
         int end = varToken.Range.End.Value;
         INode? value = null;
@@ -632,7 +632,7 @@ public class Parser(Tokenizer tokens, bool stopOnFirstError)
 
     private string ExpressionToParamName(INode node)
     {
-        if (node is Variable varNode && varNode.Symbol.Kind == SymKind.Local && varNode.Symbol.Path == "")
+        if (node is Variable varNode && varNode.Symbol.IsGlobalBuiltIn)
         {
             return varNode.Symbol.Name;
         }

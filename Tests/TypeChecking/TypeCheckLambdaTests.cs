@@ -25,7 +25,7 @@ public class TypeCheckLambdaTests
             BuiltinFunc.Definition.Instanciate([BuiltinType.String, BuiltinType.Number])
         ),
         (
-            new Lambda(0..0, [new FunctionParameter("a", BuiltinTypeName.String)], new Variable(0..0, Symbol.Local("a"))), 
+            new Lambda(0..0, [new FunctionParameter("a", BuiltinTypeName.String)], new Variable(0..0, Symbol.BuiltIn("a"))), 
             BuiltinFunc.Definition.Instanciate([BuiltinType.String, BuiltinType.String])
         ),
     ];

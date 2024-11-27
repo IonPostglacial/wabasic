@@ -1,11 +1,11 @@
 [JS!Name("Point")]
-class Point($x Number+, $y Number+) 
+class Point(x Number+, y Number+) 
 {
-    Public X Number+ {get;set} := $x;
-    Public Y Number+ {get;set} := $y;
+    Public X Number+ {get;set} := x;
+    Public Y Number+ {get;set} := y;
     [JS!Name("Distance")]
     Public Distance() String {}
 }
 
-let $p := New #Point(0, 0);
-$p.distance();
+let p := new #Point(0, 0);
+p.distance();

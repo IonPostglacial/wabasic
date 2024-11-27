@@ -131,7 +131,7 @@ public class TypeChecker(ITypeRegistry typeRegistry, ISymbolTypeMapping presetSy
                 {
                     var paramType = EnsureKnownType(node, TypeRegistry.Lookup(param.Type ?? BuiltinTypeName.Object));
                     constructorType.Add(new FixedTypeParameter(paramType));
-                    classScope.BindSymbol(Symbol.Local(param.Name), paramType);
+                    classScope.BindSymbol(Symbol.BuiltIn(param.Name), paramType);
                 }
                 constructorType.Add(new ThisTypeParameters());
                 methods.Add(new MethodDefinition("New", [], constructorType));
@@ -159,7 +159,7 @@ public class TypeChecker(ITypeRegistry typeRegistry, ISymbolTypeMapping presetSy
                 {
                     var paramType = EnsureKnownType(node, TypeRegistry.Lookup(param.Type ?? BuiltinTypeName.Object));
                     constructorType.Add(new FixedTypeParameter(paramType));
-                    constructorScope.BindSymbol(Symbol.Local(param.Name), paramType);
+                    constructorScope.BindSymbol(Symbol.BuiltIn(param.Name), paramType);
                 }
                 constructorType.Add(new ThisTypeParameters());
                 methods.Add(new MethodDefinition("New", constructor.Attributes, constructorType));
@@ -176,7 +176,7 @@ public class TypeChecker(ITypeRegistry typeRegistry, ISymbolTypeMapping presetSy
                 {
                     var paramType = EnsureKnownType(node, TypeRegistry.Lookup(param.Type ?? BuiltinTypeName.Object));
                     methodType.Add(new FixedTypeParameter(paramType));
-                    methodScope.BindSymbol(Symbol.Local(param.Name), paramType);
+                    methodScope.BindSymbol(Symbol.BuiltIn(param.Name), paramType);
                 }
                 var returnType = EnsureKnownType(node, TypeRegistry.Lookup(method.ReturnType));
                 methodType.Add(new FixedTypeParameter(returnType));
@@ -302,7 +302,7 @@ public class TypeChecker(ITypeRegistry typeRegistry, ISymbolTypeMapping presetSy
             foreach (var param in node.Params)
             {
                 var paramType = TypeRegistry.Lookup(param.Type ?? BuiltinTypeName.Object) ?? BuiltinType.Object;
-                lambdaScopedSymbols.BindSymbol(Symbol.Local(param.Name), paramType);
+                lambdaScopedSymbols.BindSymbol(Symbol.BuiltIn(param.Name), paramType);
                 lambdaParamTypes.Add(paramType);
             }
             node.Body.Accept(this);
